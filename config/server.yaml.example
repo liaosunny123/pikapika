@@ -1,0 +1,12 @@
+rabbitmq:
+  # 定义 Rabbit MQ 的基本信息
+  host: ''
+  port: ''
+  username: ''
+  password: ''
+echo:
+  # 定义服务器回显文字
+  tag-echo: ''
+module:
+  # 设置模块运行的类型，可以填写 lora, pic-gen, tagger，每个模块单独运行其工作
+  type: 'lora'
