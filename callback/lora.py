@@ -2,11 +2,11 @@ import json
 import uuid
 
 import requests
-
 from loguru import logger
+
+from codec import parser
 from sd import lora
 from storage import oss
-from codec import parser
 
 
 def callback(ch, method, properties, body):

@@ -6,17 +6,17 @@ from callback import pic_gen
 from callback import tagger
 from codec import parser
 
+fn_map = {
+    'lora': callback.lora.callback,
+    'pic-gen': callback.pic_gen.callback,
+    'tagger': callback.tagger.callback
+}
+
 if __name__ == '__main__':
     logger.info('Pikapika is starting...')
     logger.info('Pikapika version: v1.0.0-alpha')
     logger.info('Pikapika author: EpicMo')
     mq = parser.Parser()
-
-    fn_map = {
-        'lora': callback.lora.callback,
-        'pic-gen': callback.pic_gen.callback,
-        'tagger': callback.tagger.callback
-    }
 
     logger.info('Pikapika is started, running now.')
     logger.info(f'Listening rabbitmq server:{mq.get_rabbitmq_conn_info()}')

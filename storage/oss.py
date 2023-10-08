@@ -1,5 +1,6 @@
-import oss2
 import uuid
+
+import oss2
 from oss2.credentials import StaticCredentialsProvider
 
 
