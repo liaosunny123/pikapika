@@ -4,7 +4,7 @@ import yaml
 
 class Parser(object):
     def __init__(self):
-        with open('config/server.yaml', 'r', encoding='utf-8') as f:
+        with open('server.yaml', 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f)
 
     def get_rabbitmq_conn_info(self) -> str:
@@ -24,10 +24,10 @@ class Parser(object):
         return self.config['module']['type']
 
     def get_oss_access_key_id(self) -> str:
-        return self.config['module']['access_key_id']
+        return self.config['oss']['access_key_id']
 
     def get_oss_access_key_secret(self) -> str:
-        return self.config['module']['access_key_secret']
+        return self.config['oss']['access_key_secret']
 
     def get_upload_prefix(self) -> str:
         return self.config['oss']['upload_prefix']
