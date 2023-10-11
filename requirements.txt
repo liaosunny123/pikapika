@@ -1,5 +1,5 @@
 loguru~=0.7.2
 pika~=1.3.2
-PyYAML~=5.4.1
+PyYAML
 oss2~=2.18.2
 requests~=2.25.1
