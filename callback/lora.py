@@ -42,7 +42,7 @@ def callback(ch, method, properties, body):
             else:
                 ch.basic_ack(delivery_tag=method.delivery_tag)
         except Exception as e:
-            if "callback" in data and data["callback"][:3] == "http":
+            if "callback" in data and data["callback"][:4] == "http":
                 trace = uuid.uuid4()
                 logger.error(
                     f"Pikapika meets a trouble when dealing lora, error: {e}, trace-id: {trace}"
@@ -60,6 +60,7 @@ def callback(ch, method, properties, body):
                         f'Http request meet trouble, can not connect with remote server: {data["callback"]}'
                     )
                 ch.basic_ack(delivery_tag=method.delivery_tag)
-                sleep(10 * i * 1000)
                 i = i + 1
+                sleep(10 * i * 1000)
+            i = 4
             logger.error(f'Meet error content for {data}')
