@@ -23,7 +23,9 @@ def callback(ch, method, properties, body):
                 data["oss"]["bucketName"],
                 list[str](data["oss"]["filePath"]),
             )
+            logger.info("Got source images from OSS. ")
             gens = lora.gen_lora(img_list, data["style"], list[str](data["tags"]))
+            logger.info("Generated images from OSS.")
             rets = oss.upload_target_files(
                 mq.get_oss_access_key_id(),
                 mq.get_oss_access_key_secret(),
@@ -32,6 +34,7 @@ def callback(ch, method, properties, body):
                 gens,
                 mq.get_upload_prefix(),
             )
+            logger.info("Uploaded images to OSS.")
             response = requests.post(
                 data["callback"], data={"ret": "0", "msg": f"OK!", "lora": rets}
             )
@@ -63,4 +66,5 @@ def callback(ch, method, properties, body):
                 i = i + 1
                 sleep(10 * i * 1000)
             i = 4
-            logger.error(f'Meet error content for {data}')
+            logger.error(f'Meet error content for {data}, Exception: {e}')
+            ch.basic_ack(delivery_tag=method.delivery_tag)

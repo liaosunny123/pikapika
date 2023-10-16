@@ -17,6 +17,7 @@ def callback(ch, method, properties, body):
     while i <= 3:
         try:
             gen = lora.gen_pic(data["lora"], data["prompt"])
+            logger.info("Generated images from OSS.")
             response = requests.post(
                 data["callback"],
                 data={
@@ -32,6 +33,7 @@ def callback(ch, method, properties, body):
                     ),
                 },
             )
+            logger.info("Uploaded images to OSS.")
             if response.status_code != 200:
                 logger.error(
                     f'Http request meet trouble, can not connect with remote server: {data["callback"]}'
