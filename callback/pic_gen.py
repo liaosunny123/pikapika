@@ -31,6 +31,8 @@ def callback(ch, method, properties, body):
                         gen,
                         mq.get_upload_prefix(),
                     ),
+                    "taskId": data["taskId"],
+                    "lora": data["lora"]
                 },
             )
             logger.info("Uploaded images to OSS.")
@@ -42,6 +44,7 @@ def callback(ch, method, properties, body):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
         except Exception as e:
             if "callback" in data and data["callback"][:4] == "http":
+                ch.basic_ack(delivery_tag=method.delivery_tag)
                 trace = uuid.uuid4()
                 logger.error(
                     f"Pikapika meets a trouble when dealing pic-gen, error: {e}, trace-id: {trace}"
@@ -58,7 +61,6 @@ def callback(ch, method, properties, body):
                     logger.error(
                         f'Http request meet trouble, can not connect with remote server: {data["callback"]}'
                     )
-                ch.basic_ack(delivery_tag=method.delivery_tag)
                 i = i + 1
                 sleep(10 * i * 1000)
             i = 4

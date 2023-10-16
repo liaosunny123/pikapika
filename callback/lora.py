@@ -26,17 +26,22 @@ def callback(ch, method, properties, body):
             logger.info("Got source images from OSS. ")
             gens = lora.gen_lora(img_list, data["style"], list[str](data["tags"]))
             logger.info("Generated images from OSS.")
-            rets = oss.upload_target_files(
-                mq.get_oss_access_key_id(),
-                mq.get_oss_access_key_secret(),
-                data["oss"]["endPoint"],
-                data["oss"]["bucketName"],
-                gens,
-                mq.get_upload_prefix(),
-            )
+            rets: list[dict[str, str]] = []
+            for gen in gens:
+                rets.append({
+                    "preview": oss.upload_target_file(
+                        mq.get_oss_access_key_id(),
+                        mq.get_oss_access_key_secret(),
+                        data["oss"]["endPoint"],
+                        data["oss"]["bucketName"],
+                        gen["token"],
+                        mq.get_upload_prefix(),
+                    ),
+                    "token": gen["token"]
+                })
             logger.info("Uploaded images to OSS.")
             response = requests.post(
-                data["callback"], data={"ret": "0", "msg": f"OK!", "lora": rets}
+                data["callback"], data={"ret": "0", "msg": f"OK!", "lora": rets, "taskId": data["taskId"]}
             )
             if response.status_code != 200:
                 logger.error(
@@ -46,6 +51,7 @@ def callback(ch, method, properties, body):
                 ch.basic_ack(delivery_tag=method.delivery_tag)
         except Exception as e:
             if "callback" in data and data["callback"][:4] == "http":
+                ch.basic_ack(delivery_tag=method.delivery_tag)
                 trace = uuid.uuid4()
                 logger.error(
                     f"Pikapika meets a trouble when dealing lora, error: {e}, trace-id: {trace}"
@@ -62,7 +68,6 @@ def callback(ch, method, properties, body):
                     logger.error(
                         f'Http request meet trouble, can not connect with remote server: {data["callback"]}'
                     )
-                ch.basic_ack(delivery_tag=method.delivery_tag)
                 i = i + 1
                 sleep(10 * i * 1000)
             i = 4
