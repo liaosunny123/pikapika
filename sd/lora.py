@@ -1,5 +1,5 @@
 import uuid
-
+from os import path
 from loguru import logger
 
 from sd import biz
@@ -11,10 +11,12 @@ def gen_lora(files: list[str], style: int, tags: list[str]) -> list[dict[str, st
     # TODO: 补充生成 Lora 模型的逻辑
     gen = []
     for file in files:
-        gen.append({
-            "preview": "generate/default.png",
-            "token": str(uuid.uuid4())
-        })
+        gen.append(
+            {
+                "preview": path.join("generate", "default.png"),
+                "token": str(uuid.uuid4()),
+            }
+        )
     return gen
 
 

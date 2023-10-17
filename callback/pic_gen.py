@@ -32,7 +32,7 @@ def callback(ch, method, properties, body):
                         mq.get_upload_prefix(),
                     ),
                     "taskId": data["taskId"],
-                    "loraId": data["lora"]
+                    "loraId": data["lora"],
                 },
             )
             logger.info("Uploaded images to OSS.")
@@ -64,4 +64,4 @@ def callback(ch, method, properties, body):
                 i = i + 1
                 sleep(10 * i * 1000)
             i = 4
-            logger.error(f'Meet error content for {data}')
+            logger.error(f"Meet error content for {data}")

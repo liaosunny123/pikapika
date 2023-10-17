@@ -1,5 +1,6 @@
 import json
 import uuid
+from os import path
 from time import sleep
 
 import requests
@@ -25,7 +26,7 @@ def callback(ch, method, properties, body):
             )
             logger.info("Got source images from OSS.")
             gens = lora.gen_lora(img_list, data["style"], list[str](data["tags"]))
-            logger.info("Generated images from OSS.")
+            logger.info("Generated images from Local Machine.")
             rets: list[dict[str, str]] = []
             for gen in gens:
                 rets.append({
@@ -34,7 +35,7 @@ def callback(ch, method, properties, body):
                         mq.get_oss_access_key_secret(),
                         data["oss"]["endPoint"],
                         data["oss"]["bucketName"],
-                        gen["token"],
+                        gen["preview"],
                         mq.get_upload_prefix(),
                     ),
                     "token": gen["token"]
@@ -62,6 +63,7 @@ def callback(ch, method, properties, body):
                         "ret": "403",
                         "msg": f"服务器遇到内部错误，请联系管理员查看，Trace Id 为：{trace}",
                         "lora": [],
+                        "taskId": data["taskId"]
                     },
                 )
                 if response.status_code != 200:
