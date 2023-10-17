@@ -32,7 +32,7 @@ def callback(ch, method, properties, body):
                         mq.get_upload_prefix(),
                     ),
                     "taskId": data["taskId"],
-                    "lora": data["lora"]
+                    "loraId": data["lora"]
                 },
             )
             logger.info("Uploaded images to OSS.")

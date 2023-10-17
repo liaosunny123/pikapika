@@ -23,7 +23,7 @@ def callback(ch, method, properties, body):
                 data["oss"]["bucketName"],
                 list[str](data["oss"]["filePath"]),
             )
-            logger.info("Got source images from OSS. ")
+            logger.info("Got source images from OSS.")
             gens = lora.gen_lora(img_list, data["style"], list[str](data["tags"]))
             logger.info("Generated images from OSS.")
             rets: list[dict[str, str]] = []
