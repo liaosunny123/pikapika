@@ -1,6 +1,5 @@
 import json
 import uuid
-from os import path
 from time import sleep
 
 import requests
@@ -29,24 +28,35 @@ def callback(ch, method, properties, body):
             logger.info("Generated images from Local Machine.")
             rets: list[dict[str, str]] = []
             for gen in gens:
-                rets.append({
-                    "preview": oss.upload_target_file(
-                        mq.get_oss_access_key_id(),
-                        mq.get_oss_access_key_secret(),
-                        data["oss"]["endPoint"],
-                        data["oss"]["bucketName"],
-                        gen["preview"],
-                        mq.get_upload_prefix(),
-                    ),
-                    "token": gen["token"]
-                })
+                rets.append(
+                    {
+                        "preview": oss.upload_target_file(
+                            mq.get_oss_access_key_id(),
+                            mq.get_oss_access_key_secret(),
+                            data["oss"]["endPoint"],
+                            data["oss"]["bucketName"],
+                            gen["preview"],
+                            mq.get_upload_prefix(),
+                        ),
+                        "token": gen["token"],
+                    }
+                )
             logger.info("Uploaded images to OSS.")
             response = requests.post(
-                data["callback"], data={"ret": "0", "msg": f"OK!", "lora": rets, "taskId": data["taskId"]}
+                data["callback"],
+                data=json.dumps(
+                    {
+                        "ret": "0",
+                        "msg": f"OK!",
+                        "lora": rets,
+                        "taskId": data["taskId"],
+                    }
+                ),
+                headers={"Content-Type": "application/json"},
             )
             if response.status_code != 200:
                 logger.error(
-                    f'Http request meet trouble , can not connect with remote server: {data["callback"]}'
+                    f'Http request meet trouble , can not connect with remote server: {data["callback"]}, status code: {response.status_code}'
                 )
             else:
                 ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -63,7 +73,7 @@ def callback(ch, method, properties, body):
                         "ret": "403",
                         "msg": f"服务器遇到内部错误，请联系管理员查看，Trace Id 为：{trace}",
                         "lora": [],
-                        "taskId": data["taskId"]
+                        "taskId": data["taskId"],
                     },
                 )
                 if response.status_code != 200:
@@ -73,5 +83,5 @@ def callback(ch, method, properties, body):
                 i = i + 1
                 sleep(10 * i * 1000)
             i = 4
-            logger.error(f'Meet error content for {data}, Exception: {e}')
+            logger.error(f"Meet error content for {data}, Exception: {e}")
             ch.basic_ack(delivery_tag=method.delivery_tag)
