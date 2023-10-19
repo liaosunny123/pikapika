@@ -49,7 +49,7 @@ def callback(ch, method, properties, body):
                         "ret": "0",
                         "msg": f"OK!",
                         "lora": rets,
-                        "taskId": data["taskId"],
+                        "taskId": data["taskId"]
                     }
                 ),
                 headers={"Content-Type": "application/json"},
@@ -71,16 +71,17 @@ def callback(ch, method, properties, body):
                 )
                 response = requests.post(
                     data["callback"],
-                    data={
+                    data=json.dumps({
                         "ret": "403",
                         "msg": f"服务器遇到内部错误，请联系管理员查看，Trace Id 为：{trace}",
                         "lora": [],
                         "taskId": data["taskId"],
-                    },
+                    }),
+                    headers={"Content-Type": "application/json;charset=utf-8"}
                 )
                 if response.status_code != 200:
                     logger.error(
-                        f'Http request meet trouble, can not connect with remote server: {data["callback"]}'
+                        f'Http request meet trouble, can not connect with remote server: {data["callback"]}, status code: {response.status_code}'
                     )
                 i = i + 1
                 sleep(10 * i * 1000)
