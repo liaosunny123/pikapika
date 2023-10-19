@@ -58,9 +58,10 @@ def callback(ch, method, properties, body):
                 logger.error(
                     f'Http request meet trouble , can not connect with remote server: {data["callback"]}, status code: {response.status_code}'
                 )
-                logger.info("Acked request!")
             else:
+                logger.info("Acked request!")
                 ch.basic_ack(delivery_tag=method.delivery_tag)
+                break
         except Exception as e:
             if "callback" in data and data["callback"][:4] == "http":
                 ch.basic_ack(delivery_tag=method.delivery_tag)
