@@ -2,3 +2,4 @@ server.yaml
 .idea/
 venv/
 download/
+*/__pycache__/
