@@ -20,20 +20,23 @@ def callback(ch, method, properties, body):
             logger.info("Generated images from OSS.")
             response = requests.post(
                 data["callback"],
-                data={
-                    "ret": "0",
-                    "msg": f"OK!",
-                    "pictures": oss.upload_target_files(
-                        mq.get_oss_access_key_id(),
-                        mq.get_oss_access_key_secret(),
-                        data["oss"]["endPoint"],
-                        data["oss"]["bucketName"],
-                        gen,
-                        mq.get_upload_prefix(),
-                    ),
-                    "taskId": data["taskId"],
-                    "loraId": data["lora"],
-                },
+                data=json.dumps(
+                    {
+                        "ret": 0,
+                        "msg": f"OK!",
+                        "pictures": oss.upload_target_files(
+                            mq.get_oss_access_key_id(),
+                            mq.get_oss_access_key_secret(),
+                            data["oss"]["endPoint"],
+                            data["oss"]["bucketName"],
+                            gen,
+                            mq.get_upload_prefix(),
+                        ),
+                        "taskId": data["taskId"],
+                        "loraId": data["lora"],
+                    }
+                ),
+                headers={"Content-Type": "application/json;charset=utf-8"},
             )
             logger.info("Uploaded images to OSS.")
             if response.status_code != 200:
@@ -57,11 +60,11 @@ def callback(ch, method, properties, body):
                         {
                             "ret": "0",
                             "msg": f"OK!",
-                            "lora": rets,
+                            "loraId": data["lora"],
                             "taskId": data["taskId"],
                         }
                     ),
-                    headers={"Content-Type": "application/json"},
+                    headers={"Content-Type": "application/json;charset=utf-8"},
                 )
                 if response.status_code != 200:
                     logger.error(
