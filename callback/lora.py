@@ -28,6 +28,7 @@ def callback(ch, method, properties, body):
             logger.info("Generated images from Local Machine.")
             rets: list[dict[str, str]] = []
             for gen in gens:
+                logger.info("Oss upload event by taskId: " + data["taskId"])
                 rets.append(
                     {
                         "preview": oss.upload_target_file(
@@ -45,12 +46,7 @@ def callback(ch, method, properties, body):
             response = requests.post(
                 data["callback"],
                 data=json.dumps(
-                    {
-                        "ret": "0",
-                        "msg": f"OK!",
-                        "lora": rets,
-                        "taskId": data["taskId"]
-                    }
+                    {"ret": "0", "msg": f"OK!", "lora": rets, "taskId": data["taskId"]}
                 ),
                 headers={"Content-Type": "application/json"},
             )
@@ -71,13 +67,15 @@ def callback(ch, method, properties, body):
                 )
                 response = requests.post(
                     data["callback"],
-                    data=json.dumps({
-                        "ret": "403",
-                        "msg": f"服务器遇到内部错误，请联系管理员查看，Trace Id 为：{trace}",
-                        "lora": [],
-                        "taskId": data["taskId"],
-                    }),
-                    headers={"Content-Type": "application/json;charset=utf-8"}
+                    data=json.dumps(
+                        {
+                            "ret": "403",
+                            "msg": f"服务器遇到内部错误，请联系管理员查看，Trace Id 为：{trace}",
+                            "lora": [],
+                            "taskId": data["taskId"],
+                        }
+                    ),
+                    headers={"Content-Type": "application/json;charset=utf-8"},
                 )
                 if response.status_code != 200:
                     logger.error(

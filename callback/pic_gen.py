@@ -18,6 +18,7 @@ def callback(ch, method, properties, body):
         try:
             gen = lora.gen_pic(data["lora"], data["prompt"])
             logger.info("Generated images from OSS.")
+            logger.info("Oss upload event by taskId: " + data["taskId"])
             response = requests.post(
                 data["callback"],
                 data=json.dumps(
@@ -62,7 +63,7 @@ def callback(ch, method, properties, body):
                             "msg": f"服务器遇到内部错误，请联系管理员查看，Trace Id 为：{trace}",
                             "loraId": data["lora"],
                             "taskId": data["taskId"],
-                            "pictures":[]
+                            "pictures": [],
                         }
                     ),
                     headers={"Content-Type": "application/json;charset=utf-8"},
