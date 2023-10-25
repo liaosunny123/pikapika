@@ -8,6 +8,7 @@ from loguru import logger
 from codec import parser
 from sd import lora
 from storage import oss
+import traceback
 
 
 def callback(ch, method, properties, body):
