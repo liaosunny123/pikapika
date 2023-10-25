@@ -44,7 +44,7 @@ def gen_lora(
                 "lora-scripts",
                 "train",
                 train_dir,
-                mq.get_lora_train_num() + "_" + "pics",
+                str(mq.get_lora_train_num()) + "_" + "pics",
             ),
         )
 
