@@ -20,7 +20,7 @@ def download_target_files(
         local_file = str(uuid.uuid4())
         bucket.get_object_to_file(file, path.join(".", "download", local_file))
         logger.info(f"Got file from OSS with key: {file}, target at {local_file}")
-        ret.append(path.join("download", str(uuid.uuid4())))
+        ret.append(path.join("download", local_file))
     return ret
 
 
@@ -36,10 +36,13 @@ def upload_target_files(
     bucket = oss2.Bucket(auth.credentials_provider, end_point, bucket_name)
     ret = []
     for file in file_path:
-        local_file = str(uuid.uuid4())
-        bucket.put_object_from_file(f"{upload_prefix}/{local_file}.jpg", file)
-        logger.info(f"Got file from OSS with key: {file}, target at {local_file}")
-        ret.append(f"download/{uuid.uuid4()}")
+        remote_file = str(uuid.uuid4())
+        logger.info(
+            f"Uploaded Oss files, with file path: {file_path}, remote file: {remote_file}"
+        )
+        bucket.put_object_from_file(f"{upload_prefix}/{remote_file}.jpg", file)
+        logger.info(f"Got file from OSS with key: {file}, target at {remote_file}")
+        ret.append(f"{upload_prefix}/{remote_file}")
     return ret
 
 
@@ -51,11 +54,14 @@ def upload_target_file(
     file_path: str,
     upload_prefix: str,
 ) -> str:
+    logger.info(f"Uploaded Oss file, with file path: {file_path}")
     auth = oss2.ProviderAuth(Auth(access_key_id, access_key_secret))
     bucket = oss2.Bucket(auth.credentials_provider, end_point, bucket_name)
     ret = ""
-    local_file = str(uuid.uuid4())
-    bucket.put_object_from_file(f"{upload_prefix}/{local_file}.jpg", file_path)
-    logger.info(f"Got file from OSS with key: {file_path}, target at {local_file}")
-    ret = f"{upload_prefix}/{local_file}.jpg"
+    remote_file = str(uuid.uuid4())
+    bucket.put_object_from_file(f"{upload_prefix}/{remote_file}.jpg", file_path)
+    logger.info(
+        f"Got file from OSS with key: {remote_file}, target at local file {file_path}"
+    )
+    ret = f"{upload_prefix}/{remote_file}.jpg"
     return ret
