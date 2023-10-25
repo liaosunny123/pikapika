@@ -6,12 +6,22 @@ rabbitmq:
   password: ''
 echo:
   # 定义服务器回显文字
-  tag-echo: ''
+  tag_echo: 'server-demo'
 module:
   # 设置模块运行的类型，可以填写 lora, pic-gen, tagger，每个模块单独运行其工作
   type: 'lora'
 oss:
-  # 上传文件的路径前缀
-  upload_prefix: ''
   access_key_id: ''
   access_key_secret: ''
+  upload_prefix: 'lora_img'
+child_service:
+  lora: 'ws://localhost:7999'
+  sd: 'http://localhost:7890'
+lora:
+  train_num: 20
+  loss_decide: 0.085
+sd:
+  preview_prompt: "4K,realistic,High definition"
+  preview_steps: 30
+debug:
+  mode: 'false'
