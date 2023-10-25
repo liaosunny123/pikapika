@@ -33,3 +33,21 @@ class Parser(object):
 
     def get_upload_prefix(self) -> str:
         return self.config["oss"]["upload_prefix"]
+
+    def get_lora_scripts_ws_addr(self) -> str:
+        return self.config["child_service"]["lora"]
+
+    def get_lora_train_num(self) -> str:
+        return self.config["lora"]["train_num"]
+
+    def get_loss_decided_num(self) -> int:
+        return int(self.config["lora"]["loss_decide"])
+
+    def get_sd_service_addr(self) -> str:
+        return str(self.config["child_service"]["sd"])
+
+    def get_sd_preview_default_prompt(self) -> str:
+        return str(self.config["sd"]["preview_prompt"])
+
+    def get_sd_generate_steps(self) -> str:
+        return str(self.config["sd"]["preview_steps"])
