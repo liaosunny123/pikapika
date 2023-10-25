@@ -15,7 +15,7 @@ oss:
   access_key_secret: ''
   upload_prefix: 'lora_img'
 child_service:
-  lora: 'ws://localhost:7999'
+  lora: 'ws://localhost:8999'
   sd: 'http://localhost:7890'
 lora:
   train_num: 20
