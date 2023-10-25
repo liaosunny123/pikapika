@@ -62,6 +62,7 @@ def callback(ch, method, properties, body):
             if "callback" in data and data["callback"][:4] == "http":
                 ch.basic_ack(delivery_tag=method.delivery_tag)
                 trace = uuid.uuid4()
+                traceback.print_exc()
                 logger.error(
                     f"Pikapika meets a trouble when dealing lora, error: {e}, trace-id: {trace}"
                 )
