@@ -85,4 +85,5 @@ def callback(ch, method, properties, body):
                 sleep(10 * i * 1000)
             i = 4
             logger.error(f"Meet error content for {data}, Exception: {e}")
+            traceback.print_exc()
             ch.basic_ack(delivery_tag=method.delivery_tag)

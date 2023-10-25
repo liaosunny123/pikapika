@@ -76,3 +76,4 @@ def callback(ch, method, properties, body):
                 sleep(10 * i * 1000)
             i = 4
             logger.error(f"Meet error content for {data}")
+            traceback.print_exc()
