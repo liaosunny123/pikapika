@@ -72,9 +72,9 @@ def gen_lora(
             )
             logger.info("Starting to wait for remote ws return")
             msg = await ws.recv()
-            logger.info(msg)
             data = json.loads(msg)
-            if data["status"] != "1001":
+            if str(data["status"]) != "1001":
+                logger.error("status error")
                 return
             logger.info("Task is running now")
             models_gen = []
