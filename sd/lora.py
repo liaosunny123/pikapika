@@ -2,6 +2,7 @@ import asyncio
 import base64
 import json
 import os
+import pathlib
 import shutil
 import uuid
 from os import path
@@ -39,17 +40,21 @@ def gen_lora(
     if use_default_tag:
         get_pics_tags_save_in_dir(
             resolution,
-            path.join(
-                "lora-scripts",
-                "train",
-                train_dir,
-                "unprocessed",
+            os.path.abspath(
+                path.join(
+                    "lora-scripts",
+                    "train",
+                    train_dir,
+                    "unprocessed",
+                )
             ),
-            path.join(
-                "lora-scripts",
-                "train",
-                train_dir,
-                str(mq.get_lora_train_num()) + "_" + "pics",
+            os.path.abspath(
+                path.join(
+                    "lora-scripts",
+                    "train",
+                    train_dir,
+                    str(mq.get_lora_train_num()) + "_" + "pics",
+                )
             ),
         )
 
