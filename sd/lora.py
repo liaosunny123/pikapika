@@ -71,7 +71,8 @@ def gen_lora(
                 )
             )
             logger.info("Starting to wait for remote ws return")
-            msg = await ws.read_message()
+            msg = await ws.recv()
+            logger.info(msg)
             data = json.loads(msg)
             if data["status"] != "1001":
                 return
