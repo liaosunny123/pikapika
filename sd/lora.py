@@ -87,21 +87,20 @@ def gen_lora(
                         models_gen.append(
                             {"model_name": data["model_name"], "loss": data["loss"]}
                         )
-
                         logger.info(
                             "A lora generated, with model name: "
                             + data["model_name"]
                             + ", with loss: "
-                            + data["loss"]
+                            + str(data["loss"])
                         )
                     if data["status"] == 2001:
                         logger.info(
                             "Epoch finished once, num: "
-                            + data["epoch"]
+                            + str(data["epoch"])
                             + ", loss: "
-                            + data["loss"]
+                            + str(data["loss"])
                             + ", step: "
-                            + data["step"]
+                            + str(data["step"])
                         )
                     if data["status"] == 3001:
                         logger.info("Finished task, msg: " + data["message"])
