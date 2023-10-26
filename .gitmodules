@@ -1,6 +1,6 @@
 [submodule "lora-scripts"]
 	path = lora-scripts
 	url = https://github.com/liaosunny123/lora-scripts
-[submodule "sd-webui"]
-	path = sd-webui
+[submodule "stable-diffusion-webui"]
+	path = stable-diffusion-webui
 	url = https://github.com/liaosunny123/stable-diffusion-webui.git
