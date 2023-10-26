@@ -8,10 +8,10 @@ import uuid
 from os import path
 
 import requests
+import websockets
 from loguru import logger
 from sd import biz
 from codec import parser
-import websockets
 
 
 def gen_lora(
@@ -71,7 +71,7 @@ def gen_lora(
                 )
             )
             logger.info("Starting to wait for remote ws return")
-            msg = await ws.recv()
+            msg = await ws.read_message()
             data = json.loads(msg)
             if data["status"] != "1001":
                 return
