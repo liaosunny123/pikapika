@@ -118,7 +118,7 @@ def gen_lora(
             for lora in sorted_gen[:4]:
                 name = str(uuid.uuid4())
                 target_dir = path.join(
-                    "sd-webui", "models", "Lora", name + ".safetensors"
+                    "stable-diffusion-webui", "models", "Lora", name + ".safetensors"
                 )
                 shutil.move(
                     path.join("lora-scripts", "output", lora["model_name"]),
