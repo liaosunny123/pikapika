@@ -9,6 +9,7 @@ Pikapika 工作模式为单实例提供单服务模式：
 1. 配置运行时环境变量
 
 ```bash
+git clone --recurse-submodules https://github.com/liaosunny123/pikapika.git 
 cp server.yaml.example server.yaml
 vim server.yaml 
 ```
