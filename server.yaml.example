@@ -16,7 +16,7 @@ oss:
   upload_prefix: 'lora_img'
 child_service:
   lora: 'ws://localhost:8999'
-  sd: 'http://localhost:7890'
+  sd: 'http://localhost:7860'
 lora:
   train_num: 20
   loss_decide: 0.085

@@ -39,7 +39,12 @@ def gen_lora(
     if use_default_tag:
         get_pics_tags_save_in_dir(
             resolution,
-            train_dir,
+            path.join(
+                "lora-scripts",
+                "train",
+                train_dir,
+                "unprocessed",
+            ),
             path.join(
                 "lora-scripts",
                 "train",
@@ -49,7 +54,9 @@ def gen_lora(
         )
 
     async def get_ws_info(model, train_data_name):
-        async with websockets.connect(mq.get_lora_scripts_ws_addr() + "/train/network") as ws:
+        async with websockets.connect(
+            mq.get_lora_scripts_ws_addr() + "/train/network"
+        ) as ws:
             await ws.send(
                 json.dumps(
                     {
