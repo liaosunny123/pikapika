@@ -28,13 +28,11 @@ def gen_lora(
     train_dir = str(uuid.uuid4())
     for file in files:
         os.mkdir(path.join("lora-scripts", "train", train_dir))
+        os.mkdir(path.join("lora-scripts", "train", train_dir, "unprocessed"))
         shutil.move(
             file,
             path.join(
-                "lora-scripts",
-                "train",
-                train_dir,
-                "unprocessed",
+                "lora-scripts", "train", train_dir, "unprocessed", file.split("/")[-1]
             ),
         )
     if use_default_tag:
