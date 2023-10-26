@@ -115,7 +115,7 @@ def gen_lora(
                 )
             # While End
             sorted_gen = sorted(
-                models_gen, key=lambda sp: abs(sp.loss - mq.get_loss_decided_num())
+                models_gen, key=lambda sp: abs(sp["loss"] - mq.get_loss_decided_num())
             )
             for lora in sorted_gen[:4]:
                 name = str(uuid.uuid4())
