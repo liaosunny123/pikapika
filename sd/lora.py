@@ -83,7 +83,7 @@ def gen_lora(
                     msg = await ws.recv()
                     data = json.loads(msg)
                     logger.info(data)
-                    if data["status"] == 2002:
+                    if data["status"] == 2001:
                         models_gen.append(
                             {"model_name": data["model_name"], "loss": data["loss"]}
                         )
@@ -93,14 +93,14 @@ def gen_lora(
                             + ", with loss: "
                             + str(data["loss"])
                         )
-                    if data["status"] == 2001:
+                    if data["status"] == 2002:
                         logger.info(
                             "Epoch finished once, num: "
                             + str(data["epoch"])
                             + ", loss: "
                             + str(data["loss"])
                             + ", step: "
-                            + str(data["step"])
+                            + data["step"]
                         )
                     if data["status"] == 3001:
                         logger.info("Finished task, msg: " + data["message"])
