@@ -100,7 +100,7 @@ def gen_lora(
                             + ", loss: "
                             + str(data["loss"])
                             + ", step: "
-                            + data["step"]
+                            + str(data["step"])
                         )
                     if data["status"] == 3001:
                         logger.info("Finished task, msg: " + data["message"])
