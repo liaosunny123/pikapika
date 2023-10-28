@@ -1,3 +1,5 @@
+import time
+
 from loguru import logger
 
 import callback
@@ -22,15 +24,19 @@ if __name__ == "__main__":
     logger.info(f"Listening rabbitmq server:{mq.get_rabbitmq_conn_info()}")
     logger.info(f"Pikapika is now used as module: {mq.get_module_type()}")
 
-    conn = mq.get_rabbitmq_conn()
-    channel = conn.channel()
-    logger.info("Pikapika is now checked conn.")
-    channel.queue_declare(queue=mq.get_module_type(), durable=True)
-    channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(mq.get_module_type(), fn_map[mq.get_module_type()], True)
-    logger.info("Pikapika is now running consuming task...")
     while True:
         try:
+            conn = mq.get_rabbitmq_conn()
+            channel = conn.channel()
+            logger.info("Pikapika is now checked conn.")
+            channel.queue_declare(queue=mq.get_module_type(), durable=True)
+            channel.basic_qos(prefetch_count=1)
+            channel.basic_consume(
+                mq.get_module_type(), fn_map[mq.get_module_type()], True
+            )
+            logger.info("Pikapika is now running consuming task...")
             channel.start_consuming()
         except Exception as e:
             logger.warning(f"MQ Error as:{e}")
+            logger.warning("Restart after 3s..")
+            time.sleep(3)
