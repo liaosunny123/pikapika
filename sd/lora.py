@@ -191,7 +191,7 @@ def gen_preview_pic(lora_model_name: str, resolution: str) -> str:
     (width, height) = resolution.split(",")
     mq = parser.Parser()
     response = requests.post(
-        mq.get_sd_service_addr() + "/",
+        mq.get_sd_service_addr() + "/sdapi/v1/txt2img",
         data=json.dumps(
             {
                 "prompt": f"<lora:{lora_model_name}:1>,"
