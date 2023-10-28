@@ -104,9 +104,9 @@ def gen_lora(
                     if data["status"] == 3001:
                         logger.info("Finished task, msg: " + data["message"])
                         break
-            except websockets.ConnectionClosed:
+            except websockets.ConnectionClosed as e:
                 logger.error(
-                    "WS Connection with lora scripts server was closed by the remote!"
+                    f"WS Connection with lora scripts server was closed by the remote! Exception: {e}"
                 )
             except Exception as e:
                 logger.error(
