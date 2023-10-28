@@ -82,7 +82,6 @@ def gen_lora(
                 while True:
                     msg = await ws.recv()
                     data = json.loads(msg)
-                    logger.info(data)
                     if data["status"] == 2001:
                         models_gen.append(
                             {"model_name": data["model_name"], "loss": data["loss"]}
@@ -213,7 +212,7 @@ def gen_preview_pic(lora_model_name: str, resolution: str) -> str:
             }
         ),
     )
-    return generate_file(response.json()["images"])
+    return generate_file(response.json()["images"][0])
 
 
 def get_pics_tags_save_in_dir(resolution: str, train_dir: str, output_dir: str) -> bool:
