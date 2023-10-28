@@ -30,4 +30,7 @@ if __name__ == "__main__":
     channel.basic_consume(mq.get_module_type(), fn_map[mq.get_module_type()], True)
     logger.info("Pikapika is now running consuming task...")
     while True:
-        channel.start_consuming()
+        try:
+            channel.start_consuming()
+        except Exception as e:
+            logger.warning(f"MQ Error as:{e}")
