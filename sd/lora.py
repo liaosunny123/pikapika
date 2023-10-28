@@ -173,7 +173,7 @@ def gen_pic(
                 }
             ),
         )
-        gen.append(generate_file(response.json()["images"]))
+        gen.append(generate_file(response.json()["images"][0]))
     return gen
 
 
