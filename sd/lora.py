@@ -134,7 +134,10 @@ def gen_lora(
                     }
                 )
                 logger.info(
-                    "Selected lora with loss: " + lora["loss"] + ", model name: " + name
+                    "Selected lora with loss: "
+                    + str(lora["loss"])
+                    + ", model name: "
+                    + name
                 )
 
     asyncio.get_event_loop().run_until_complete(get_ws_info(model_name, train_dir))
@@ -193,6 +196,7 @@ def generate_file(b64c: str) -> str:
 def gen_preview_pic(lora_model_name: str, resolution: str) -> str:
     (width, height) = resolution.split(",")
     mq = parser.Parser()
+    logger.info("use lora: " + lora_model_name + "to generate preview picture.")
     response = requests.post(
         mq.get_sd_service_addr() + "/sdapi/v1/txt2img",
         data=json.dumps(

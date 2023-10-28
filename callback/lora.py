@@ -60,7 +60,6 @@ def callback(ch, method, properties, body):
                 break
         except Exception as e:
             if "callback" in data and data["callback"][:4] == "http":
-                ch.basic_ack(delivery_tag=method.delivery_tag)
                 trace = uuid.uuid4()
                 traceback.print_exc()
                 logger.error(
@@ -87,4 +86,3 @@ def callback(ch, method, properties, body):
             i = 4
             logger.error(f"Meet error content for {data}, Exception: {e}")
             traceback.print_exc()
-            ch.basic_ack(delivery_tag=method.delivery_tag)
