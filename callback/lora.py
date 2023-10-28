@@ -29,7 +29,7 @@ def callback(ch, method, properties, body):
             logger.info("Generated images from Local Machine.")
             rets: list[dict[str, str]] = []
             for gen in gens:
-                logger.info("Oss upload event by taskId: " + data["taskId"])
+                logger.info("Oss upload event by taskId: " + str(data["taskId"]))
                 rets.append(
                     {
                         "preview": oss.upload_target_file(
