@@ -26,9 +26,9 @@ def gen_lora(
     mq = parser.Parser()
     gen = []
     train_dir = str(uuid.uuid4())
+    os.mkdir(path.join("lora-scripts", "train", train_dir))
+    os.mkdir(path.join("lora-scripts", "train", train_dir, "unprocessed"))
     for file in files:
-        os.mkdir(path.join("lora-scripts", "train", train_dir))
-        os.mkdir(path.join("lora-scripts", "train", train_dir, "unprocessed"))
         shutil.move(
             file,
             path.join(
