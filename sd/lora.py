@@ -58,7 +58,9 @@ def gen_lora(
 
     async def get_ws_info(model, train_data_name):
         async with websockets.connect(
-            mq.get_lora_scripts_ws_addr() + "/train/network"
+            mq.get_lora_scripts_ws_addr() + "/train/network",
+            extra_headers={"User-Agent": "Python"},
+            subprotocols=["tr_json2"],
         ) as ws:
             await ws.send(
                 json.dumps(
