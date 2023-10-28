@@ -133,6 +133,9 @@ def gen_lora(
                         "token": name,
                     }
                 )
+                logger.info(
+                    "Selected lora with loss: " + lora["loss"] + ", model name: " + name
+                )
 
     asyncio.get_event_loop().run_until_complete(get_ws_info(model_name, train_dir))
     return gen
