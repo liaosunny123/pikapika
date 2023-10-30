@@ -19,7 +19,7 @@ def callback(ch, method, properties, body):
         try:
             gen = lora.gen_pic(data["lora"], data["prompt"])
             logger.info("Generated images from OSS.")
-            logger.info("Oss upload event by taskId: " + data["taskId"])
+            logger.info("Oss upload event by taskId: " + str(data["taskId"]))
             response = requests.post(
                 data["callback"],
                 data=json.dumps(
