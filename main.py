@@ -1,8 +1,8 @@
 import time
 
 from loguru import logger
-
 import callback
+import sys
 from callback import lora
 from callback import pic_gen
 from callback import tagger
@@ -19,7 +19,10 @@ if __name__ == "__main__":
     logger.info("Pikapika version: v1.0.0-alpha")
     logger.info("Pikapika author: EpicMo")
     mq = parser.Parser()
-
+    module_type = mq.get_module_type()
+    if len(sys.argv) == 2:
+        logger.info(f"Use manual module type: {sys.argv[1]}")
+        module_type = sys.argv[1]
     logger.info("Pikapika is started, running now.")
     logger.info(f"Listening rabbitmq server:{mq.get_rabbitmq_conn_info()}")
     logger.info(f"Pikapika is now used as module: {mq.get_module_type()}")
@@ -32,7 +35,7 @@ if __name__ == "__main__":
             channel.queue_declare(queue=mq.get_module_type(), durable=True)
             channel.basic_qos(prefetch_count=1)
             channel.basic_consume(
-                mq.get_module_type(), fn_map[mq.get_module_type()], True
+                mq.get_module_type(), fn_map[module_type], True
             )
             logger.info("Pikapika is now running consuming task...")
             channel.start_consuming()

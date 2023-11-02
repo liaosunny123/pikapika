@@ -17,6 +17,7 @@ def callback(ch, method, properties, body):
     i = 1  # CallBack 逻辑，使得重试次数分时
     while i <= 3:
         try:
+            logger.info("Get Task and run gen picture task.")
             gen = lora.gen_pic(data["lora"], data["prompt"])
             logger.info("Generated images from OSS.")
             logger.info("Oss upload event by taskId: " + str(data["taskId"]))
