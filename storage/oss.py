@@ -38,11 +38,11 @@ def upload_target_files(
     for file in file_path:
         remote_file = str(uuid.uuid4())
         logger.info(
-            f"Uploaded Oss files, with file path: {file_path}, remote file: {remote_file}"
+            f"Uploaded Oss files, with file path: {file}, remote file: {remote_file}"
         )
         bucket.put_object_from_file(f"{upload_prefix}/{remote_file}.jpg", file)
         logger.info(f"Got file from OSS with key: {file}, target at {remote_file}")
-        ret.append(f"{upload_prefix}/{remote_file}")
+        ret.append(f"{upload_prefix}/{remote_file}.jpg")
     return ret
 
 
