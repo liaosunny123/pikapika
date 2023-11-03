@@ -25,14 +25,14 @@ if __name__ == "__main__":
         module_type = sys.argv[1]
     logger.info("Pikapika is started, running now.")
     logger.info(f"Listening rabbitmq server:{mq.get_rabbitmq_conn_info()}")
-    logger.info(f"Pikapika is now used as module: {mq.get_module_type()}")
+    logger.info(f"Pikapika is now used as module: {module_type}")
 
     while True:
         try:
             conn = mq.get_rabbitmq_conn()
             channel = conn.channel()
             logger.info("Pikapika is now checked conn.")
-            channel.queue_declare(queue=mq.get_module_type(), durable=True)
+            channel.queue_declare(queue=module_type, durable=True)
             channel.basic_qos(prefetch_count=1)
             channel.basic_consume(
                 module_type, fn_map[module_type], True
