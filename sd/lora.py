@@ -160,24 +160,23 @@ def gen_pic(
             # TODO 这个地方可以添加多 Lora 融合机制
             data=json.dumps(
                 {
-                    "prompt": f"<lora:doll-{lora_model_name}:{lora_strength}>,"
-                    + prompt,
+                    "denoising_strength": 0,
+                    "prompt": f"<lora:{lora_model_name}:{lora_strength}>",
                     "used_checkpoint_model": checkpoint,
                     "negative_prompt": "",
-                    "styles": [],
                     "seed": -1,
-                    "sampler_name": "DPM++ 2M Karras",
                     "batch_size": 1,
                     "n_iter": 1,
                     "steps": mq.get_sd_generate_steps(),
                     "cfg_scale": 7,
                     "width": int(width),
                     "height": int(height),
-                    "tiling": True,
-                    "comments": {},
-                    "script_args": [],
-                    "send_images": True,
-                    "save_images": False,
+                    "restore_faces": False,
+                    "tiling": False,
+                    "override_settings": {
+                        "sd_model_checkpoint": "chilloutmix.safetensors [fc2511737a]"
+                    },
+                    "sampler_index": "DPM++ 2M Karras",
                 }
             ),
         )
@@ -201,23 +200,23 @@ def gen_preview_pic(lora_model_name: str, resolution: str) -> str:
         mq.get_sd_service_addr() + "/sdapi/v1/txt2img",
         data=json.dumps(
             {
-                "prompt": f"<lora:{lora_model_name}:1>,"
-                + mq.get_sd_preview_default_prompt(),
+                "denoising_strength": 0,
+                "prompt": f"<lora:{lora_model_name}:1>",
+                "used_checkpoint_model": "chilloutmix",
                 "negative_prompt": "",
-                "styles": [],
                 "seed": -1,
-                "sampler_name": "DPM++ 2M Karras",
                 "batch_size": 1,
                 "n_iter": 1,
                 "steps": mq.get_sd_generate_steps(),
                 "cfg_scale": 7,
                 "width": int(width),
                 "height": int(height),
-                "tiling": True,
-                "comments": {},
-                "script_args": [],
-                "send_images": True,
-                "save_images": False,
+                "restore_faces": False,
+                "tiling": False,
+                "override_settings": {
+                    "sd_model_checkpoint": "chilloutmix.safetensors [fc2511737a]"
+                },
+                "sampler_index": "DPM++ 2M Karras",
             }
         ),
     )
