@@ -35,7 +35,7 @@ if __name__ == "__main__":
             channel.queue_declare(queue=mq.get_module_type(), durable=True)
             channel.basic_qos(prefetch_count=1)
             channel.basic_consume(
-                mq.get_module_type(), fn_map[module_type], True
+                module_type, fn_map[module_type], True
             )
             logger.info("Pikapika is now running consuming task...")
             channel.start_consuming()
