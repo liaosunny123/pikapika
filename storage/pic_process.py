@@ -31,11 +31,15 @@ def seg_pic(file_path: list[str]) -> list[str]:
             resp = client.segment_commodity_advance(seg_req, runtime_opt)
             temp_file_name = str(uuid.uuid4()) + ".jpg"
             file_name = str(uuid.uuid4()) + ".png"
-            with Image.open(requests.get(resp.body.data.image_url).content) as img:
-                white_bg = Image.new("RGBA", img.size, "WHITE")
-                white_bg.paste(img, (0, 0), img)
-                non_transparent = white_bg.convert("RGB")
-                non_transparent.save(path.join("generate", file_name), "PNG")
+            with open(path.join("generate", temp_file_name), "wb") as obj:
+                obj.write(requests.get(resp.body.data.image_url).content)
+
+            img = Image.open(path.join("generate", temp_file_name))
+            white_bg = Image.new("RGBA", img.size, "WHITE")
+            white_bg.paste(img, (0, 0), img)
+            non_transparent = white_bg.convert("RGB")
+            non_transparent.save(path.join("generate", file_name), "PNG")
+
             gen.append(path.join("generate", file_name))
             logger.info(f"generate white background picture: {file_name}")
         except Exception as e:
