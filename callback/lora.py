@@ -8,6 +8,7 @@ from loguru import logger
 from codec import parser
 from sd import lora
 from storage import oss
+from storage import pic_process
 import traceback
 
 
@@ -25,7 +26,8 @@ def callback(ch, method, properties, body):
                 list[str](data["oss"]["filePath"]),
             )
             logger.info("Got source images from OSS.")
-            gens = lora.gen_lora(img_list, data["style"], list[str](data["tags"]))
+            re_seg_pic = pic_process.seg_pic(img_list)  # 添加抠图换白底功能
+            gens = lora.gen_lora(re_seg_pic, data["style"], list[str](data["tags"]))
             logger.info("Generated images from Local Machine.")
             rets: list[dict[str, str]] = []
             for gen in gens:
@@ -53,7 +55,8 @@ def callback(ch, method, properties, body):
             )
             if response.status_code != 200:
                 logger.error(
-                    f'Http request meet trouble , can not connect with remote server: {data["callback"]}, status code: {response.status_code}'
+                    f'Http request meet trouble , can not connect with remote server: {data["callback"]}, status code: '
+                    f"{response.status_code}"
                 )
             else:
                 logger.info("End request!")

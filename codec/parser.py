@@ -51,3 +51,15 @@ class Parser(object):
 
     def get_sd_generate_steps(self) -> str:
         return str(self.config["sd"]["preview_steps"])
+
+    def get_seg_pics_access_key_id(self) -> str:
+        return str(self.config["seg"]["access_key_id"])
+
+    def get_seg_pics_access_key_secret(self) -> str:
+        return str(self.config["seg"]["access_key_secret"])
+
+    def get_seg_pics_endpoint(self) -> str:
+        return str(self.config["seg"]["endpoint"])
+
+    def get_seg_pics_region_id(self) -> str:
+        return str(self.config["seg"]["region_id"])

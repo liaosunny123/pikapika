@@ -14,6 +14,11 @@ oss:
   access_key_id: ''
   access_key_secret: ''
   upload_prefix: 'lora_img'
+seg:
+  access_key_id: ''
+  access_key_secret: ''
+  endpoint: ''
+  region_id: ''
 child_service:
   lora: 'ws://localhost:8999'
   sd: 'http://localhost:7860'

@@ -2,7 +2,6 @@ import asyncio
 import base64
 import json
 import os
-import pathlib
 import shutil
 import uuid
 from os import path
@@ -161,7 +160,7 @@ def gen_pic(
             data=json.dumps(
                 {
                     "denoising_strength": 0,
-                    "prompt": f"<lora:{lora_model_name}:{lora_strength}>",
+                    "prompt": f"<lora:{lora_model_name}:{lora_strength}>," + prompt,
                     "used_checkpoint_model": checkpoint,
                     "negative_prompt": "",
                     "seed": -1,
