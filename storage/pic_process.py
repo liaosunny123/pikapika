@@ -39,6 +39,7 @@ def seg_pic(file_path: list[str]) -> list[str]:
                 non_transparent = white_bg.convert("RGB")
                 non_transparent.save(path.join("generate", file_name), "PNG")
             gen.append(path.join("generate", file_name))
+            logger.info(f"generate white background picture: {file_name}")
         except Exception as e:
             logger.warning(f"Error occurs when segmenting pictures, Exception: {e}")
     return gen
