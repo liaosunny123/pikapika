@@ -30,7 +30,7 @@ def seg_pic(file_path: list[str]) -> list[str]:
         try:
             resp = client.segment_commodity_advance(seg_req, runtime_opt)
             temp_file_name = str(uuid.uuid4()) + ".jpg"
-            file_name = str(uuid.uuid4()) + ".jpg"
+            file_name = str(uuid.uuid4()) + ".png"
             with open(path.join("generate", temp_file_name), "wb") as obj:
                 obj.write(requests.get(resp.body.data.image_url).content)
             with Image.open(path.join("generate", temp_file_name)) as img:
